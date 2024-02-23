@@ -1,0 +1,123 @@
+﻿<Window x:Class="ShipThatSetup.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShipThatSetup"
+        mc:Ignorable="d" BorderBrush="#FF707070" BorderThickness="1"
+        Title="Setup" Height="484" Width="814" AllowsTransparency="True" ResizeMode="NoResize"
+        Background="#FF202020" Foreground="#FFE8E8E8" WindowStyle="None">
+    <Window.Resources>
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="#FF2D2D2D"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="GridRoot" Width="15" Background="{TemplateBinding Background}">
+                            <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
+                                <Track.Thumb>
+                                    <!-- thumb is defined somewhere -->
+                                    <Thumb x:Name="Thumb" />
+                                </Track.Thumb>                                
+                            </Track>
+                        </Grid>
+                        <!-- removed triggers -->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+    </Window.Resources>
+
+    <Border Padding="6">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0"
+               LastChildFill="True" MouseDown="DockPanel_MouseDown">
+            <Grid DockPanel.Dock="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                <TextBlock Name="lblTitle" Text="Title Here" FontSize="18" 
+                           VerticalAlignment="Center"></TextBlock>
+                    <Button x:Name="CloseButton" Content="X" FontSize="18" Width="40"
+                            Grid.Column="1" Click="CloseButton_Click"
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                            KeyboardNavigation.IsTabStop="False" Foreground="White" 
+                            Background="#FF2D2D2D">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#c42b1c" TargetName="Border" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Separator Name="sepTitle" Height="1" Grid.Row="1" 
+                               Grid.ColumnSpan="4"
+                               Background="#FF707070"></Separator>
+                </Grid>                
+            </DockPanel>
+            
+            <Border Grid.Row="1" x:Name="svEULA" Visibility="Visible">
+                <ScrollViewer x:Name="scrollViewerEULA">                    
+                    <TextBlock Name="lblEULA"></TextBlock>
+                </ScrollViewer>                
+            </Border>
+            <Image x:Name="imgBackdrop" Visibility="Collapsed" Grid.Row="1">
+                <Image.Source>
+                    <BitmapImage DecodePixelWidth="1000" DecodePixelHeight="500" UriSource="pack://siteoforigin:,,,/backdrop.png"/>
+                </Image.Source>
+            </Image>
+
+            <Border Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ProgressBar x:Name="pbStatus" Minimum="0" Maximum="1" 
+                             Visibility="Collapsed" Grid.ColumnSpan="5"></ProgressBar>
+                <Button Name="btnAccept" Grid.Column="0" Content="Accept" FontSize="16"
+                        Grid.ColumnSpan="6" Click="btnAccept_Click"
+                        VerticalContentAlignment="Center" HorizontalAlignment="Center"
+                        Background="#FF2D2D2D" Foreground="#FFE2E2E2"></Button>
+                <TextBox Name="txtInstallPath" Grid.Column="0" Background="#FF2D2D2D" 
+                         Foreground="#FFE6E6E6" FontSize="17" Visibility="Collapsed" 
+                         Text="c:\install\goo\foo\loo\roo\poo\yoo\" 
+                         TextAlignment="Left" VerticalContentAlignment="Center"></TextBox>
+                <Button Name="btnBrowse" Grid.Column="2" Content="Browse" FontSize="16"
+                            VerticalContentAlignment="Center" Click="btnBrowse_Click"
+                            Visibility="Collapsed"
+                            Background="#FF2D2D2D" Foreground="#FFE2E2E2"></Button>
+                <Button Name="btnInstall" Grid.Column="4" Content="Install" FontSize="16"
+                            VerticalContentAlignment="Center" Click="btnInstall_Click"
+                            Visibility="Collapsed"
+                            Background="#FF2D2D2D" Foreground="#FFE2E2E2"></Button>
+            </Grid>
+        </Border>
+    </Grid>
+    </Border>
+</Window>

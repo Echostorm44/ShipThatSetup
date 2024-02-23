@@ -1,0 +1,10 @@
+{
+    "Title": "WhatHuh CPU",
+    "ExeFileName": "WhatHuh.exe",
+    "DefaultInstallFolderName": "WhatHuh",
+    "IconFileName": "appIcon.ico",
+    "UseLauncher": false,
+    "ZipName": "WhatHuhCPU.zip",
+    "GithubRepo": "WhatHuh", 
+    "GithubOwner": "Echostorm44" 
+}
