@@ -115,8 +115,15 @@ public partial class MainWindow : Window
             pbStatus.IsIndeterminate = false;
             pbStatus.Visibility = Visibility.Collapsed;
             results.Report("Shortcut created, launching for first time.");
+            if(MySettings.UseLauncher)
+            {
+                System.Diagnostics.Process.Start(Path.Combine(txtInstallPath.Text, "launcher.exe"));
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(Path.Combine(txtInstallPath.Text, MySettings.ExeFileName));
+            }
 
-            System.Diagnostics.Process.Start(Path.Combine(txtInstallPath.Text, MySettings.ExeFileName));
             Application.Current.Shutdown();
         }
         catch(Exception ex)
