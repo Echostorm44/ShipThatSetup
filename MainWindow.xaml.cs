@@ -102,26 +102,30 @@ public partial class MainWindow : Window
 
             results.Report("Creating shortcut...");
             pbStatus.IsIndeterminate = true;
+            var launcherPath = Path.Combine(txtInstallPath.Text, "launcher.exe");
+            var iconPath = Path.Combine(txtInstallPath.Text, MySettings.IconFileName);
+            var exePath = Path.Combine(txtInstallPath.Text, MySettings.ExeFileName);
+            string log = $"Launcher: {launcherPath}\r\nIcon: {iconPath}\r\nExe: {exePath}\r\nUseLauncher: {MySettings.UseLauncher}";
+            System.IO.File.WriteAllText(Path.Combine(txtInstallPath.Text, "install.log"), log);
+
             if(MySettings.UseLauncher)
             {
-                CreateShortcut(Path.Combine(txtInstallPath.Text, "launcher.exe"), 
-                    Path.Combine(txtInstallPath.Text, MySettings.IconFileName), MySettings.Title);
+                CreateShortcut(launcherPath, iconPath, MySettings.Title);
             }
             else
             {
-                CreateShortcut(Path.Combine(txtInstallPath.Text, MySettings.ExeFileName), 
-                    Path.Combine(txtInstallPath.Text, MySettings.IconFileName), MySettings.Title);
+                CreateShortcut(exePath, iconPath, MySettings.Title);
             }
             pbStatus.IsIndeterminate = false;
             pbStatus.Visibility = Visibility.Collapsed;
             results.Report("Shortcut created, launching for first time.");
             if(MySettings.UseLauncher)
             {
-                System.Diagnostics.Process.Start(Path.Combine(txtInstallPath.Text, "launcher.exe"));
+                System.Diagnostics.Process.Start(launcherPath);
             }
             else
             {
-                System.Diagnostics.Process.Start(Path.Combine(txtInstallPath.Text, MySettings.ExeFileName));
+                System.Diagnostics.Process.Start(exePath);
             }
 
             Application.Current.Shutdown();
