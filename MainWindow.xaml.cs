@@ -19,11 +19,11 @@ public partial class MainWindow : Window
         InitializeComponent();
         try
         {
-            var settingsPath = Path.Combine(Environment.CurrentDirectory, "config.json");
+            var settingsPath = Path.Combine(AppContext.BaseDirectory, "config.json");
             MySettings = JsonSerializer.Deserialize<SetupSettings>(System.IO.File.ReadAllText(settingsPath));
             lblTitle.Text = MySettings.Title;
             txtInstallPath.Text = Path.Combine(@"C:\", MySettings.DefaultInstallFolderName);
-            var eulaPath = Path.Combine(Environment.CurrentDirectory, "EULA.txt");
+            var eulaPath = Path.Combine(AppContext.BaseDirectory, "EULA.txt");
             using TextReader tr = new StreamReader(eulaPath);
             lblEULA.Text = tr.ReadToEnd();
         }
