@@ -1,5 +1,7 @@
 ﻿using IWshRuntimeLibrary;
 using Microsoft.Win32;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
@@ -29,6 +31,11 @@ public partial class MainWindow : Window
         }
         catch(Exception ex)
         {
+            using(EventLog eventLog = new EventLog("Application"))
+            {
+                eventLog.Source = "Application";
+                eventLog.WriteEntry(ex.ToString(), EventLogEntryType.Error);
+            }
             lblEULA.Text = ex.Message;
         }
     }
