@@ -40,7 +40,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void CreateShortcut(string exePath, string iconPath, string name)
+    private void CreateDesktopShortcut(string exePath, string iconPath, string name)
     {
         try
         {
@@ -48,6 +48,32 @@ public partial class MainWindow : Window
             WshShell shell = new WshShell();
             string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @$"\{name}.lnk";
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.TargetPath = exePath;
+            shortcut.IconLocation = iconPath;
+            shortcut.Save();
+        }
+        catch(Exception ex)
+        {
+            lblEULA.Visibility = Visibility.Visible;
+            lblEULA.Text = ex.Message;
+        }
+    }
+
+    private void CreateStartMenuShortcut(string exePath, string iconPath, string name)
+    {
+        try
+        {
+            string commonStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+            string appStartMenuPath = Path.Combine(commonStartMenuPath, name);
+            if(!Directory.Exists(appStartMenuPath))
+            {
+                Directory.CreateDirectory(appStartMenuPath);
+            }
+
+            string shortcutLocation = Path.Combine(appStartMenuPath, name + ".lnk");
+            WshShell shell = new WshShell();
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
+
             shortcut.TargetPath = exePath;
             shortcut.IconLocation = iconPath;
             shortcut.Save();
@@ -117,11 +143,13 @@ public partial class MainWindow : Window
 
             if(MySettings.UseLauncher)
             {
-                CreateShortcut(launcherPath, iconPath, MySettings.Title);
+                CreateDesktopShortcut(launcherPath, iconPath, MySettings.Title);
+                CreateStartMenuShortcut(launcherPath, iconPath, MySettings.Title);
             }
             else
             {
-                CreateShortcut(exePath, iconPath, MySettings.Title);
+                CreateDesktopShortcut(exePath, iconPath, MySettings.Title);
+                CreateStartMenuShortcut(exePath, iconPath, MySettings.Title);
             }
             pbStatus.IsIndeterminate = false;
             pbStatus.Visibility = Visibility.Collapsed;
